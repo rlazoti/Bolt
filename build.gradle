@@ -13,6 +13,5 @@ repositories {
 dependencies {
 	compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.8.3'
-	compile group: 'javassist', name: 'javassist', version: '3.12.1.GA'
 	testCompile group: 'junit', name: 'junit', version: '4.8'
 }
