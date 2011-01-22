@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="build/classes/main" path="src/main/resources"/>
+	<classpathentry kind="src" output="build/classes/main" path="src/main/java"/>
+	<classpathentry kind="src" output="build/classes/test" path="src/test/resources"/>
+	<classpathentry kind="src" output="build/classes/test" path="src/test/java"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="var" path="GRADLE_CACHE/javassist/javassist/jars/javassist-3.12.1.GA.jar"/>
+	<classpathentry kind="var" path="GRADLE_CACHE/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="var" path="GRADLE_CACHE/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="var" path="GRADLE_CACHE/javax.servlet/servlet-api/jars/servlet-api-2.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
