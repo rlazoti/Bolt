@@ -18,7 +18,7 @@ public class FileUtils {
 			String line = null;
 			while ((line = input.readLine()) != null) {
 				content.append(line);
-				content.append(System.getProperty("line.separator"));
+				content.append(System.getProperty(Constants.LINE_SEPARATOR_PROPERTY));
 			}
 		}
 		finally {
