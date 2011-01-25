@@ -6,6 +6,4 @@ public interface BoltConfiguration {
 
   public String getErrorPage();
 
-  public String getLocale();
-
 }

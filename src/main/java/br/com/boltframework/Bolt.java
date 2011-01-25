@@ -43,8 +43,8 @@ public class Bolt extends HttpServlet {
 		return getServletConfig().getInitParameter(Constants.CONFIGURATION_INIT_PARAMETER);
 	}
 
-	private String getApplicationContext() {
-		return getServletConfig().getInitParameter(Constants.APPLICATION_CONTEXT);
+	private String getApplicationContext(HttpServletRequest request) {
+		return request.getContextPath() + "/" + getServletConfig().getInitParameter(Constants.APPLICATION_CONTEXT);
 	}
 
 	private BoltConfiguration getConfigurationInstance() {
@@ -82,7 +82,7 @@ public class Bolt extends HttpServlet {
 	protected void action(HttpServletRequest request, HttpServletResponse response, HttpMethod httpMethod) throws ServletException, IOException {
 		String dispatch = null;
 		String pathInfo = request.getPathInfo();
-		String applicationContext = getApplicationContext();
+		String applicationContext = getApplicationContext(request);
 		request.setAttribute(Constants.APPLICATION_CONTEXT, applicationContext);
 
 		try {

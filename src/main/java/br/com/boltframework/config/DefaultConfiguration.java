@@ -2,9 +2,8 @@ package br.com.boltframework.config;
 
 public class DefaultConfiguration implements BoltConfiguration {
 
-  private final String viewsPath = "/WEB-INF/views/";
+  private final String viewsPath = "/WEB-INF/jsp/";
   private final String errorPage = "boltErrorPage.html";
-  private final String locale = "pt-BR";
 
   @Override
   public String getViewsPath() {
@@ -14,11 +13,6 @@ public class DefaultConfiguration implements BoltConfiguration {
   @Override
   public String getErrorPage() {
     return errorPage;
-  }
-
-  @Override
-  public String getLocale() {
-    return locale;
   }
 
 }
