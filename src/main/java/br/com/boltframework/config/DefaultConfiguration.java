@@ -2,7 +2,7 @@ package br.com.boltframework.config;
 
 public class DefaultConfiguration implements BoltConfiguration {
 
-  private final String viewsPath = "/WEB-INF/jsp/";
+  private final String viewsPath = "/WEB-INF/views/";
   private final String errorPage = "boltErrorPage.html";
 
   @Override

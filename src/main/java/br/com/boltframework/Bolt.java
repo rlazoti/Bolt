@@ -27,106 +27,102 @@ import br.com.boltframework.util.StringUtils;
 
 public class Bolt extends HttpServlet {
 
-	private static final long serialVersionUID = -6569963555600736301L;
-	private static Logger logger = Logger.getLogger(Bolt.class.getName());
+  private static final long serialVersionUID = -6569963555600736301L;
+  private static Logger logger = Logger.getLogger(Bolt.class.getName());
 
-	private List<ControllerMapping> controllerList;
-	private BoltConfiguration configuration;
+  private List<ControllerMapping> controllerList;
+  private BoltConfiguration configuration;
 
-	@Override
-	public void init() throws ServletException {
-		configuration = getConfigurationInstance();
-		controllerList = ControllerFinder.createInstance().loadAllControllers(getServletConfig(), getServletContext());
-	}
+  @Override
+  public void init() throws ServletException {
+    configuration = getConfigurationInstance();
+    controllerList = ControllerFinder.createInstance().loadAllControllers(getServletConfig(), getServletContext());
+  }
 
-	private String getCustomConfiguration() {
-		return getServletConfig().getInitParameter(Constants.CONFIGURATION_INIT_PARAMETER);
-	}
+  private String getCustomConfiguration() {
+    return getServletConfig().getInitParameter(Constants.CONFIGURATION_INIT_PARAMETER);
+  }
 
-	private String getApplicationContext(HttpServletRequest request) {
-		return request.getContextPath() + "/" + getServletConfig().getInitParameter(Constants.APPLICATION_CONTEXT);
-	}
+  private BoltConfiguration getConfigurationInstance() {
+    if (StringUtils.isNotBlank(getCustomConfiguration())) {
+      try {
+        return (BoltConfiguration) ClassUtils.createClassInstance(getCustomConfiguration());
+      }
+      catch (BoltException e) {
+        logger.log(Level.SEVERE, "Error to initialize the Custom Bolt Configuration class, please see your class. Using the Default Bolt Configuration class.", e);
+      }
+    }
+    return new DefaultConfiguration();
+  }
 
-	private BoltConfiguration getConfigurationInstance() {
-		if (StringUtils.isNotBlank(getCustomConfiguration())) {
-			try {
-				return (BoltConfiguration) ClassUtils.createClassInstance(getCustomConfiguration());
-			}
-			catch (BoltException e) {
-				logger.log(Level.SEVERE, "Error to initialize the Custom Bolt Configuration class, please see your class. Using the Default Bolt Configuration class.", e);
-			}
-		}
-		return new DefaultConfiguration();
-	}
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    action(req, resp, HttpMethod.GET);
+  }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		action(req, resp, HttpMethod.GET);
-	}
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    action(req, resp, HttpMethod.POST);
+  }
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		action(req, resp, HttpMethod.POST);
-	}
+  @Override
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    action(req, resp, HttpMethod.DELETE);
+  }
 
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		action(req, resp, HttpMethod.DELETE);
-	}
+  @Override
+  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    action(req, resp, HttpMethod.PUT);
+  }
 
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		action(req, resp, HttpMethod.PUT);
-	}
+  protected void action(HttpServletRequest request, HttpServletResponse response, HttpMethod httpMethod) throws ServletException, IOException {
+    String dispatch = null;
+    String pathInfo = request.getPathInfo();
+    String applicationContext = ControllerUtils.getApplicationContext(request, getServletConfig());
+    request.setAttribute(Constants.APPLICATION_CONTEXT, applicationContext);
 
-	protected void action(HttpServletRequest request, HttpServletResponse response, HttpMethod httpMethod) throws ServletException, IOException {
-		String dispatch = null;
-		String pathInfo = request.getPathInfo();
-		String applicationContext = getApplicationContext(request);
-		request.setAttribute(Constants.APPLICATION_CONTEXT, applicationContext);
+    try {
+      if (StringUtils.isBlank(pathInfo)) {
+        response.sendRedirect(request.getRequestURI() + Constants.FORWARD_SLASH);
+      }
 
-		try {
-			if (StringUtils.isBlank(pathInfo)) {
-				response.sendRedirect(request.getRequestURI() + Constants.FORWARD_SLASH);
-			}
+      ControllerMapping controllerMapping = ControllerUtils.findMapping(controllerList, pathInfo, httpMethod);
 
-			ControllerMapping controllerMapping = ControllerUtils.findMapping(controllerList, pathInfo, httpMethod);
+      if (controllerMapping == null) {
+        throw new ClassNotFoundException("Controller mapping not found: " + pathInfo);
+      }
 
-			if (controllerMapping == null) {
-				throw new ClassNotFoundException("Controller mapping not found: " + pathInfo);
-			}
+      Class<Object> controllerClass = (Class<Object>) controllerMapping.getController();
+      if (controllerClass == null) {
+        throw new ClassNotFoundException("Controller class not found: " + pathInfo);
+      }
 
-			Class<Object> controllerClass = (Class<Object>) controllerMapping.getController();
-			if (controllerClass == null) {
-				throw new ClassNotFoundException("Controller class not found: " + pathInfo);
-			}
+      Object controller = controllerClass.newInstance();
+      Method action = controllerMapping.getAction();
+      ControllerDecorator controllerDecorator = new ControllerDecorator(controller);
+      dispatch = (String) controllerDecorator.initializeAction(request, response, action);
+    }
+    catch (Exception e) {
+      request.setAttribute(Constants.ERROR_ATTRIBUTE_NAME, e);
+      dispatch = configuration.getErrorPage();
+      DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
 
-			Object controller = controllerClass.newInstance();
-			Method action = controllerMapping.getAction();
-			ControllerDecorator controllerDecorator = new ControllerDecorator(controller);
-			dispatch = (String) controllerDecorator.initializeAction(request, response, action);
-		}
-		catch (Exception e) {
-			request.setAttribute(Constants.ERROR_ATTRIBUTE_NAME, e);
-			dispatch = configuration.getErrorPage();
-			DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+      if (defaultConfiguration.getErrorPage().equals(dispatch)) {
+        PrintWriter out = response.getWriter();
+        String message = e.getMessage();
+        String content = ControllerUtils.obtainDefaultErrorPageWithMessage(message);
+        out.print(content);
+        return;
+      }
+    }
 
-			if (defaultConfiguration.getErrorPage().equals(dispatch)) {
-				PrintWriter out = response.getWriter();
-				String message = e.getMessage();
-				String content = ControllerUtils.obtainDefaultErrorPageWithMessage(message);
-				out.print(content);
-				return;
-			}
-		}
-
-		if (StringUtils.isNotBlank(dispatch) && !dispatch.startsWith(Constants.FORWARD_SLASH)) {
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch);
-			dispatcher.forward(request, response);
-		}
-		else {
-			response.sendRedirect(request.getContextPath() + dispatch);
-		}
-	}
+    if (StringUtils.isNotBlank(dispatch) && !dispatch.startsWith(Constants.FORWARD_SLASH)) {
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch);
+      dispatcher.forward(request, response);
+    }
+    else {
+      response.sendRedirect(request.getContextPath() + dispatch);
+    }
+  }
 
 }

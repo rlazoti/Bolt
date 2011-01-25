@@ -3,6 +3,7 @@ package br.com.boltframework.util;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import br.com.boltframework.core.ControllerMapping;
@@ -96,13 +97,9 @@ public final class ControllerUtils {
 		return null;
 	}
 
-	public static String getApplicationPath(HttpServletRequest request, String applicationContext) {
-		return request.getContextPath() + "/" + applicationContext;
-	}
-
-	public static String loadDefaultErrorPageContent(HttpServletRequest request, String applicationContext) {
-		return request.getContextPath() + "/" + applicationContext;
-	}
+  public static String getApplicationContext(HttpServletRequest request, ServletConfig servletConfig) {
+    return request.getContextPath() + Constants.FORWARD_SLASH + servletConfig.getInitParameter(Constants.APPLICATION_CONTEXT);
+  }
 
 	public static String obtainDefaultErrorPageWithMessage(String errorMessage) throws IOException {
 		String content = FileUtils.obtainContentOfFile(Constants.DEFAULT_ERROR_PAGE);
