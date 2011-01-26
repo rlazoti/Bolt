@@ -5,6 +5,9 @@ projectName = 'Bolt Framework'
 sourceCompatibility = 1.5
 version = '0.0.1'
 
+coberturaSerFile = "${project.buildDir}/cobertura.ser"
+srcCopy = "${sourceSets.main.classesDir}-copy"
+
 repositories { 
   mavenRepo urls: "http://repo1.maven.org/maven2"
   mavenRepo urls: "http://repository.jboss.com/maven2"
@@ -14,4 +17,31 @@ dependencies {
 	compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.8.3'
 	testCompile group: 'junit', name: 'junit', version: '4.8'
+	testRuntime group: 'net.sourceforge.cobertura', name: 'cobertura', version: '1.9.4.1'
+}
+
+test.doFirst  {
+  ant {
+    delete(file:coberturaSerFile, failonerror:false)
+    delete(dir: srcCopy, failonerror:false)
+    taskdef(resource:'tasks.properties', classpath: configurations.testRuntime.asPath)
+    copy(todir: srcCopy) { fileset(dir: sourceSets.main.classesDir) }
+    'cobertura-instrument'(datafile:coberturaSerFile) {
+      fileset(dir: sourceSets.main.classesDir, includes:"**/*.class")
+    }
+  }
+}
+
+test {
+  systemProperties ["net.sourceforge.cobertura.datafile"] = coberturaSerFile
+}
+
+test.doLast {
+  if (new File(srcCopy).exists()) {
+    ant {
+      delete(file: sourceSets.main.classesDir)
+      move(file: srcCopy, tofile: sourceSets.main.classesDir)
+    }
+    ant.'cobertura-report'(destdir:"${project.buildDirName}/cobertura", format:'html', srcdir:"src/main/java", datafile:coberturaSerFile)
+  }
 }
