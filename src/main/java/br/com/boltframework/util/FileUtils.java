@@ -10,8 +10,11 @@ import br.com.boltframework.Bolt;
 public class FileUtils {
 
 	public static String obtainContentOfFile(String fileName) throws IOException {
-		StringBuilder content = new StringBuilder();
-
+		if (StringUtils.isBlank(fileName)) {
+		 throw new IllegalArgumentException("The 'filename' argument can't be null.");
+		}
+		
+	  StringBuilder content = new StringBuilder();
 		InputStream is = Bolt.class.getResourceAsStream(fileName);
 		BufferedReader input = new BufferedReader(new InputStreamReader(is));
 		try {
