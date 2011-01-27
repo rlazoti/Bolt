@@ -79,33 +79,33 @@ public final class ControllerUtils {
     return getMappingByPath(currentPath, MappingType.Action);
   }
 
-	public static ControllerMapping findMapping(List<ControllerMapping> mappings, String path, HttpMethod httpMethod) {
-		String controller = ControllerUtils.getControllerMappingByPath(path);
-		String action = ControllerUtils.getActionMappingByPath(path);
+  public static ControllerMapping findMapping(List<ControllerMapping> mappings, String path, HttpMethod httpMethod) {
+    String controller = ControllerUtils.getControllerMappingByPath(path);
+    String action = ControllerUtils.getActionMappingByPath(path);
 
-		if (StringUtils.isBlank(controller) || StringUtils.isBlank(action)) {
-			return null;
-		}
+    if (StringUtils.isBlank(controller) || StringUtils.isBlank(action)) {
+      return null;
+    }
 
-		String currentMapping = ControllerMapping.createMapping(controller, action);
-		for (ControllerMapping controllerMapping : mappings) {
-			if (controllerMapping.getMapping().equals(currentMapping) && controllerMapping.getHttpMethod().equals(httpMethod)) {
-				return controllerMapping;
-			}
-		}
+    String currentMapping = ControllerMapping.createMapping(controller, action);
+    for (ControllerMapping controllerMapping : mappings) {
+      if (controllerMapping.getMapping().equals(currentMapping) && controllerMapping.getHttpMethod().equals(httpMethod)) {
+        return controllerMapping;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
   public static String getApplicationContext(HttpServletRequest request, ServletConfig servletConfig) {
     return request.getContextPath() + Constants.FORWARD_SLASH + servletConfig.getInitParameter(Constants.APPLICATION_CONTEXT);
   }
 
-	public static String obtainDefaultErrorPageWithMessage(String errorMessage) throws IOException {
-		String content = FileUtils.obtainContentOfFile(Constants.DEFAULT_ERROR_PAGE);
-		if (StringUtils.isNotBlank(content)) {
-			content = content.replace(Constants.ERROR_ATTRIBUTE_NAME, errorMessage);
-		}
-		return content;
-	}
+  public static String obtainDefaultErrorPageWithMessage(String errorMessage) throws IOException {
+    String content = FileUtils.obtainContentOfFile(Constants.DEFAULT_ERROR_PAGE);
+    if (StringUtils.isNotBlank(content)) {
+      content = content.replace(Constants.ERROR_ATTRIBUTE_NAME, errorMessage);
+    }
+    return content;
+  }
 }

@@ -9,4 +9,8 @@
   <classpathentry kind="var" path="GRADLE_CACHE/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar"/>
   <classpathentry kind="var" path="GRADLE_CACHE/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar"/>
   <classpathentry kind="var" path="GRADLE_CACHE/javax.servlet/servlet-api/jars/servlet-api-2.5.jar"/>
+  <classpathentry kind="var" path="GRADLE_CACHE/org.apache.ant/ant/jars/ant-1.7.0.jar" exported="true"/>
+  <classpathentry kind="var" path="GRADLE_CACHE/asm/asm/jars/asm-3.0.jar" exported="true"/>
+  <classpathentry kind="var" path="GRADLE_CACHE/asm/asm-tree/jars/asm-tree-3.0.jar" exported="true"/>
+  <classpathentry kind="var" path="GRADLE_CACHE/org.apache.ant/ant-launcher/jars/ant-launcher-1.7.0.jar" exported="true"/>
 </classpath>
