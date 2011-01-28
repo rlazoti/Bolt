@@ -1,5 +1,7 @@
 package br.com.boltframework.util;
 
+import java.io.IOException;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,6 +17,17 @@ public class ControllerUtilsTest {
     assertEquals(expected, controller);
   }
 
+  @Test
+  public void testObtainDefaultErrorPageWithMessage() {
+    try {
+      String errorPage = ControllerUtils.obtainDefaultErrorPageWithMessage("");
+      assertNotNull(errorPage);
+    }
+    catch (IOException e) {
+      assertTrue(false);
+    }
+  }
+  
   @Test
   public void testGetControllerMappingByPathWithCorrectPath() {
     testControllerExpected("home/index", "home");
