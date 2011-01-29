@@ -87,7 +87,7 @@ public final class ControllerUtils {
       return null;
     }
 
-    String currentMapping = ControllerMapping.createMapping(controller, action);
+    String currentMapping = createMapping(controller, action);
     for (ControllerMapping controllerMapping : mappings) {
       if (controllerMapping.getMapping().equals(currentMapping) && controllerMapping.getHttpMethod().equals(httpMethod)) {
         return controllerMapping;
@@ -108,4 +108,14 @@ public final class ControllerUtils {
     }
     return content;
   }
+  
+  public static String createMapping(String controllerName, String actionName) {
+    if (StringUtils.isBlank(controllerName) || StringUtils.isBlank(actionName)) {
+      return null;
+    }
+    else {
+      return Constants.FORWARD_SLASH + controllerName + Constants.FORWARD_SLASH + actionName;
+    }
+  }
+
 }

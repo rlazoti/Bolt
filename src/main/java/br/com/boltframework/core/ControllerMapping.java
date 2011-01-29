@@ -3,8 +3,7 @@ package br.com.boltframework.core;
 import java.lang.reflect.Method;
 
 import br.com.boltframework.http.HttpMethod;
-import br.com.boltframework.util.Constants;
-import br.com.boltframework.util.StringUtils;
+import br.com.boltframework.util.ControllerUtils;
 
 public class ControllerMapping {
   private Class<Object> controller;
@@ -14,7 +13,7 @@ public class ControllerMapping {
   private HttpMethod httpMethod;
 
   public String getMapping() {
-    return createMapping(controllerName, actionName);
+    return ControllerUtils.createMapping(controllerName, actionName);
   }
 
   public Class<Object> getController() {
@@ -55,15 +54,6 @@ public class ControllerMapping {
 
   public void setHttpMethod(HttpMethod httpMethod) {
     this.httpMethod = httpMethod;
-  }
-
-  public static String createMapping(String controllerName, String actionName) {
-    if (StringUtils.isBlank(controllerName) || StringUtils.isBlank(actionName)) {
-      return null;
-    }
-    else {
-      return Constants.FORWARD_SLASH + controllerName + Constants.FORWARD_SLASH + actionName;
-    }
   }
 
 }

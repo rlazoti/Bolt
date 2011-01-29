@@ -154,4 +154,28 @@ public class ControllerUtilsTest {
     assertNull(mapping);
   }
 
+  @Test
+  public void testCreateMappingWithCorrectValue() {
+    String mapping = ControllerUtils.createMapping("home", "index");
+    assertEquals("/home/index", mapping);
+  }
+  
+  @Test
+  public void testCreateMappingWithoutController() {
+    String mapping = ControllerUtils.createMapping("", "index");
+    assertNull(mapping);
+  }
+
+  @Test
+  public void testCreateMappingWithoutAction() {
+    String mapping = ControllerUtils.createMapping("home", "");
+    assertNull(mapping);
+  }
+
+  @Test
+  public void testCreateMappingWithoutCorrectValue() {
+    String mapping = ControllerUtils.createMapping(null, null);
+    assertNull(mapping);
+  }
+
 }
