@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.boltframework.config.BoltConfiguration;
 import br.com.boltframework.config.DefaultConfiguration;
 import br.com.boltframework.core.ControllerDecorator;
-import br.com.boltframework.core.ControllerFinder;
+import br.com.boltframework.core.ClassFinder;
 import br.com.boltframework.core.ControllerMapping;
 import br.com.boltframework.error.BoltException;
 import br.com.boltframework.http.HttpMethod;
@@ -36,7 +36,7 @@ public class Bolt extends HttpServlet {
   @Override
   public void init() throws ServletException {
     configuration = getConfigurationInstance();
-    controllerList = ControllerFinder.createInstance().loadAllControllers(getServletConfig(), getServletContext());
+    controllerList = ClassFinder.createInstance().loadAllControllerMappings(getServletConfig(), getServletContext());
   }
 
   private String getCustomConfiguration() {

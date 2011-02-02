@@ -41,9 +41,9 @@ public class ClassScanner {
     return StringUtils.isNotBlank(directoryClasses) ? directoryClasses : Constants.DEFAULT_DIRECTORY_CLASSES;
   }
 
-  public List<ControllerMapping> getActionsByController(Class<Object> controller, String controllerMappingName) {
+  public List<ControllerMapping> getActionsByClass(Class<Object> clazz, String controllerMappingName) {
     List<ControllerMapping> controllersList = new ArrayList<ControllerMapping>();
-    Method[] methods = controller.getMethods();
+    Method[] methods = clazz.getMethods();
 
     for (Method method : methods) {
       Action action = method.getAnnotation(Action.class);
@@ -51,7 +51,7 @@ public class ClassScanner {
       if (action != null && action.methods() != null && action.methods().length > 0) {
         for (HttpMethod httpMethod : action.methods()) {
           ControllerMapping controllerMapping = new ControllerMapping();
-          controllerMapping.setController(controller);
+          controllerMapping.setController(clazz);
           controllerMapping.setControllerName(controllerMappingName);
           controllerMapping.setAction(method);
           controllerMapping.setActionName(method.getName());
@@ -64,8 +64,12 @@ public class ClassScanner {
     return controllersList;
   }
 
-  public Controller getControllerAnnotation(Class<Object> controller) {
-    Annotation[] annotations = controller.getAnnotations();
+  public boolean isAnnotatedWithController(Class<Object> clazz) {
+    return obtainControllerAnnotationByClass(clazz) != null;
+  }
+  
+  public Controller obtainControllerAnnotationByClass(Class<Object> clazz) {
+    Annotation[] annotations = clazz.getAnnotations();
 
     for (Annotation annotation : annotations) {
       if (annotation instanceof Controller) {
@@ -77,15 +81,7 @@ public class ClassScanner {
     return null;
   }
 
-  public String getMappingByController(Class<Object> controller) {
-    Controller controllerAnnotation = getControllerAnnotation(controller);
-    if (controllerAnnotation != null)
-      return controllerAnnotation.mappedBy();
-
-    return null;
-  }
-
-  public Class<Object>[] getAllClassesOfServletContext(ServletContext servletContext, final String fullPackageName) throws ClassNotFoundException {
+  public Class<Object>[] getAllClassesOfApplication(ServletContext servletContext, final String fullPackageName) throws ClassNotFoundException {
 
     if (servletContext == null) {
       throw new IllegalArgumentException("The argument 'servletContext' must contain a value.");
@@ -103,7 +99,7 @@ public class ClassScanner {
 
       if (file.endsWith(Constants.FORWARD_SLASH) || file.endsWith(Constants.DOT)) {
         String actionsSubdirectoryPath = file.substring(0, file.length() - 1).replace(Constants.FORWARD_SLASH, Constants.DOT);
-        Class<?>[] subActions = getAllClassesOfServletContext(servletContext, actionsSubdirectoryPath);
+        Class<?>[] subActions = getAllClassesOfApplication(servletContext, actionsSubdirectoryPath);
         for (Class<?> subAction : subActions) {
           classes.add(subAction);
         }

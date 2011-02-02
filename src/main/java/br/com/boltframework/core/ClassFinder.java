@@ -6,42 +6,46 @@ import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
+import br.com.boltframework.annotation.Controller;
 import br.com.boltframework.scan.ClassScanner;
 import br.com.boltframework.util.Constants;
 
-public final class ControllerFinder {
+public final class ClassFinder {
 
-  private ControllerFinder() {
+  private ClassFinder() {
     super();
   }
 
-  public static ControllerFinder createInstance() {
-    return new ControllerFinder();
+  public static ClassFinder createInstance() {
+    return new ClassFinder();
   }
 
-  public List<ControllerMapping> loadAllControllers(ServletConfig servletConfig, ServletContext servletContext) {
+  public List<ControllerMapping> loadAllControllerMappings(ServletConfig servletConfig, ServletContext servletContext) {
     if (servletContext == null) {
       throw new IllegalArgumentException("The argument 'servletContext' must contain a value.");
     }
 
-    Class<Object>[] controllers = null;
+    Class<Object>[] classes = null;
     List<ControllerMapping> controllerList = new ArrayList<ControllerMapping>();
     ClassScanner classScanner = ClassScanner.createInstance().withDefaultDirectoryClasses();
     String basePackage = Constants.DOT;
 
     try {
-      controllers = classScanner.getAllClassesOfServletContext(servletContext, basePackage);
+      classes = classScanner.getAllClassesOfApplication(servletContext, basePackage);
     }
     catch (ClassNotFoundException e) {
       throw new IllegalStateException("Failed to list the actions! Please, see your actions mapping in the web.xml file.");
     }
 
-    for (Class<Object> controller : controllers) {
-      String mapping = classScanner.getMappingByController(controller);
-      controllerList.addAll(classScanner.getActionsByController(controller, mapping));
+    for (Class<Object> clazz : classes) {
+      if (classScanner.isAnnotatedWithController(clazz)) {
+        Controller controller = classScanner.obtainControllerAnnotationByClass(clazz);
+        String mapping = controller.mappedBy();
+        controllerList.addAll(classScanner.getActionsByClass(clazz, mapping));
+      }
     }
 
-    controllers = null;
+    classes = null;
     return controllerList;
   }
 }
