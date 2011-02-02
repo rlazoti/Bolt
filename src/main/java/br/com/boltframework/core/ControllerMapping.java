@@ -11,6 +11,7 @@ public class ControllerMapping {
   private Method action;
   private String actionName;
   private HttpMethod httpMethod;
+  private boolean beforeAction;
 
   public String getMapping() {
     return ControllerUtils.createMapping(controllerName, actionName);
@@ -54,6 +55,14 @@ public class ControllerMapping {
 
   public void setHttpMethod(HttpMethod httpMethod) {
     this.httpMethod = httpMethod;
+  }
+
+  public boolean isBeforeAction() {
+    return beforeAction;
+  }
+
+  public void setBeforeAction(boolean beforeAction) {
+    this.beforeAction = beforeAction;
   }
 
 }
