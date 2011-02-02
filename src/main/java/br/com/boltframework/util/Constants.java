@@ -13,5 +13,5 @@ public class Constants {
 	public static final String FORWARD_SLASH = "/";
 	public static final String EMPTY_STRING = "";
 	public static final String DOT = ".";
-	
+	public static final String ALL_ACTIONS = "All Actions";
 }

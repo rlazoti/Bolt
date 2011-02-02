@@ -6,63 +6,63 @@ import br.com.boltframework.http.HttpMethod;
 import br.com.boltframework.util.ControllerUtils;
 
 public class ControllerMapping {
-  private Class<Object> controller;
-  private String controllerName;
-  private Method action;
-  private String actionName;
-  private HttpMethod httpMethod;
-  private boolean beforeAction;
+	private Class<Object> controller;
+	private String controllerName;
+	private Method action;
+	private String actionName;
+	private HttpMethod httpMethod;
+	private Method runBeforeAction;
 
-  public String getMapping() {
-    return ControllerUtils.createMapping(controllerName, actionName);
-  }
+	public String getMapping() {
+		return ControllerUtils.createMapping(controllerName, actionName);
+	}
 
-  public Class<Object> getController() {
-    return controller;
-  }
+	public Class<Object> getController() {
+		return controller;
+	}
 
-  public String getControllerName() {
-    return controllerName;
-  }
+	public String getControllerName() {
+		return controllerName;
+	}
 
-  public Method getAction() {
-    return action;
-  }
+	public Method getAction() {
+		return action;
+	}
 
-  public String getActionName() {
-    return actionName;
-  }
+	public String getActionName() {
+		return actionName;
+	}
 
-  public HttpMethod getHttpMethod() {
-    return httpMethod;
-  }
+	public HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
 
-  public void setController(Class<Object> controller) {
-    this.controller = controller;
-  }
+	public void setController(Class<Object> controller) {
+		this.controller = controller;
+	}
 
-  public void setControllerName(String controllerName) {
-    this.controllerName = controllerName;
-  }
+	public void setControllerName(String controllerName) {
+		this.controllerName = controllerName;
+	}
 
-  public void setAction(Method action) {
-    this.action = action;
-  }
+	public void setAction(Method action) {
+		this.action = action;
+	}
 
-  public void setActionName(String actionName) {
-    this.actionName = actionName;
-  }
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
+	}
 
-  public void setHttpMethod(HttpMethod httpMethod) {
-    this.httpMethod = httpMethod;
-  }
+	public void setHttpMethod(HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
+	}
 
-  public boolean isBeforeAction() {
-    return beforeAction;
-  }
+	public Method getRunBeforeAction() {
+		return runBeforeAction;
+	}
 
-  public void setBeforeAction(boolean beforeAction) {
-    this.beforeAction = beforeAction;
-  }
+	public void setRunBeforeAction(Method runBeforeAction) {
+		this.runBeforeAction = runBeforeAction;
+	}
 
 }
