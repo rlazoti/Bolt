@@ -8,9 +8,11 @@ import org.junit.Test;
 
 import br.com.boltframework.annotation.Controller;
 import br.com.boltframework.core.ControllerMapping;
+import br.com.boltframework.scan.ClassScanner.Builder;
 import br.com.boltframework.scan.classes.PersonController;
 import br.com.boltframework.scan.classes.User;
 import br.com.boltframework.scan.classes.UserController;
+import br.com.boltframework.util.Constants;
 
 public class ClassScannerTest {
 
@@ -91,4 +93,28 @@ public class ClassScannerTest {
 		}
 	}
 
+	@Test
+	public void testCreateInstance() {
+		Builder builder = ClassScanner.createInstance();
+		assertNotNull(builder);
+	}
+
+	@Test
+	public void testCreateInstanceWithDefaultDirectoryClasses() {
+		ClassScanner instance = ClassScanner.createInstance().withDefaultDirectoryClasses();
+		assertNotNull(instance);
+	}
+
+	@Test
+	public void testCreateInstanceWithCustomDirectoryClasses() {
+		ClassScanner instance = ClassScanner.createInstance().withCustomDirectoryClasses("xpto");
+		assertNotNull(instance);
+	}
+
+	@Test
+	public void testGetDirectoryClassesByDefault() {
+		String directory = classScanner.getDirectoryClasses();
+		String defaultDirectory = Constants.DEFAULT_DIRECTORY_CLASSES;
+		assertEquals(defaultDirectory, directory);
+	}
 }
