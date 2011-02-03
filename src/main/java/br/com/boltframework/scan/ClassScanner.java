@@ -59,8 +59,11 @@ public class ClassScanner {
 		RunBeforeAction runBeforeAction = method.getAnnotation(RunBeforeAction.class);
 
 		if (runBeforeAction != null) {
-			for (String action : runBeforeAction.applyToActions()) {
-				return action.equals(Constants.ALL_ACTIONS) || actionName.equals(action);
+		  String[] actions = runBeforeAction.applyToActions();
+			for (String action : actions) {
+				if (action.equals(Constants.ALL_ACTIONS) || actionName.equals(action)) {
+				  return true;
+				}
 			}
 		}
 

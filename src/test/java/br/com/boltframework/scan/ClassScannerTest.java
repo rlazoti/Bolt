@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import br.com.boltframework.annotation.Controller;
 import br.com.boltframework.core.ControllerMapping;
+import br.com.boltframework.scan.classes.PersonController;
 import br.com.boltframework.scan.classes.User;
 import br.com.boltframework.scan.classes.UserController;
 
@@ -77,7 +78,7 @@ public class ClassScannerTest {
 	@Test
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void testGetActionsByClassIfHasValidMethodForRunBeforeSomeActions() {
-		Class clazz = UserController.class;
+		Class clazz = PersonController.class;
 		List<ControllerMapping> mappings = classScanner.getActionsByClass(clazz, "user");
 		for (ControllerMapping mapping : mappings) {
 			String action = mapping.getActionName();
