@@ -99,8 +99,10 @@ public class Bolt extends HttpServlet {
 
       Object controller = controllerClass.newInstance();
       Method action = controllerMapping.getAction();
+      Method runBeforeAction = controllerMapping.getRunBeforeAction();
       ControllerDecorator controllerDecorator = new ControllerDecorator(controller);
-      dispatch = (String) controllerDecorator.initializeAction(request, response, action);
+
+      dispatch = (String) controllerDecorator.executeAction(request, response, runBeforeAction, action);
     }
     catch (Exception e) {
       request.setAttribute(Constants.ERROR_ATTRIBUTE_NAME, e);
@@ -121,7 +123,7 @@ public class Bolt extends HttpServlet {
       dispatcher.forward(request, response);
     }
     else {
-      response.sendRedirect(request.getContextPath() + dispatch);
+      response.sendRedirect(dispatch);
     }
   }
 

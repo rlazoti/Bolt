@@ -56,13 +56,15 @@ public class ClassScanner {
 	}
 
 	private boolean isMethodAppliedToRunBeforeAction(Method method, String actionName) {
-		RunBeforeAction runBeforeAction = method.getAnnotation(RunBeforeAction.class);
+		if (method != null) {
+			RunBeforeAction runBeforeAction = method.getAnnotation(RunBeforeAction.class);
 
-		if (runBeforeAction != null) {
-		  String[] actions = runBeforeAction.applyToActions();
-			for (String action : actions) {
-				if (action.equals(Constants.ALL_ACTIONS) || actionName.equals(action)) {
-				  return true;
+			if (runBeforeAction != null) {
+				String[] actions = runBeforeAction.applyToActions();
+				for (String action : actions) {
+					if (action.equals(Constants.ALL_ACTIONS) || actionName.equals(action)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -91,6 +93,7 @@ public class ClassScanner {
 					if (isMethodAppliedToRunBeforeAction(runBeforeAction, actionName)) {
 						controllerMapping.setRunBeforeAction(runBeforeAction);
 					}
+
 					controllersList.add(controllerMapping);
 				}
 			}

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.boltframework.annotation.Action;
 import br.com.boltframework.annotation.Controller;
 import br.com.boltframework.annotation.RunBeforeAction;
+import br.com.boltframework.core.ViewHelper;
 import br.com.boltframework.http.HttpMethod;
 
 @Controller(mappedBy = "person")
@@ -61,6 +62,6 @@ public class PersonController {
 
 	@RunBeforeAction(applyToActions = { "update", "delete", "save" })
 	public String runBeforeAction(HttpServletRequest request, HttpServletResponse response) {
-		return null;
+		return ViewHelper.PROCESS_ACTION;
 	}
 }
