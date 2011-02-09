@@ -111,7 +111,7 @@ public class Bolt extends HttpServlet {
 
       if (defaultConfiguration.getErrorPage().equals(dispatch)) {
         PrintWriter out = response.getWriter();
-        String message = e.getMessage();
+        String message = (e.getMessage() == null) ? e.getCause().getClass().getName() : e.getMessage();
         String content = ControllerUtils.obtainDefaultErrorPageWithMessage(message);
         out.print(content);
         return;
