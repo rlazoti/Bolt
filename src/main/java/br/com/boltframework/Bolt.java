@@ -118,7 +118,7 @@ public class Bolt extends HttpServlet {
       }
     }
 
-    if (StringUtils.isNotBlank(dispatch) && !dispatch.startsWith(Constants.FORWARD_SLASH)) {
+    if (StringUtils.isNotBlank(dispatch) && !dispatch.endsWith(Constants.JSP_FILE_EXTENSION)) {
       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch);
       dispatcher.forward(request, response);
     }
