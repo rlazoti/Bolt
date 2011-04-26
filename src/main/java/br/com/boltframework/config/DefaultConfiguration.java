@@ -1,5 +1,7 @@
 package br.com.boltframework.config;
 
+import br.com.boltframework.core.Result;
+
 public class DefaultConfiguration implements BoltConfiguration {
 
   private final String viewsPath = "/WEB-INF/views/";
@@ -11,8 +13,8 @@ public class DefaultConfiguration implements BoltConfiguration {
   }
 
   @Override
-  public String getErrorPage() {
-    return errorPage;
+  public Result getResultErrorPage() {
+    return new Result(errorPage, Result.ResultType.FORWARD);
   }
 
 }

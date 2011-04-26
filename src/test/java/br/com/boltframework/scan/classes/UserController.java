@@ -6,43 +6,44 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.boltframework.annotation.Action;
 import br.com.boltframework.annotation.Controller;
 import br.com.boltframework.annotation.RunBeforeAction;
+import br.com.boltframework.core.Result;
 import br.com.boltframework.http.HttpMethod;
 
 @Controller(mappedBy = "user")
 public class UserController {
 
 	@Action(methods = HttpMethod.GET)
-	public String index(HttpServletRequest request, HttpServletResponse response) {
+	public Result index(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.GET)
-	public String show(HttpServletRequest request, HttpServletResponse response) {
+	public Result show(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.GET)
-	public String create(HttpServletRequest request, HttpServletResponse response) {
+	public Result create(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.POST)
-	public String save(HttpServletRequest request, HttpServletResponse response) {
+	public Result save(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.GET)
-	public String edit(HttpServletRequest request, HttpServletResponse response) {
+	public Result edit(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.GET)
-	public String update(HttpServletRequest request, HttpServletResponse response) {
+	public Result update(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 
 	@Action(methods = HttpMethod.GET)
-	public String delete(HttpServletRequest request, HttpServletResponse response) {
+	public Result delete(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 

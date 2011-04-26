@@ -18,6 +18,7 @@ import br.com.boltframework.config.DefaultConfiguration;
 import br.com.boltframework.core.ControllerDecorator;
 import br.com.boltframework.core.ClassFinder;
 import br.com.boltframework.core.ControllerMapping;
+import br.com.boltframework.core.Result;
 import br.com.boltframework.error.BoltException;
 import br.com.boltframework.http.HttpMethod;
 import br.com.boltframework.util.ClassUtils;
@@ -76,7 +77,7 @@ public class Bolt extends HttpServlet {
   }
 
   protected void action(HttpServletRequest request, HttpServletResponse response, HttpMethod httpMethod) throws ServletException, IOException {
-    String dispatch = null;
+    Result dispatch = null;
     String pathInfo = request.getPathInfo();
     String applicationContext = ControllerUtils.getApplicationContext(request, getServletConfig());
     request.setAttribute(Constants.APPLICATION_CONTEXT, applicationContext);
@@ -102,14 +103,13 @@ public class Bolt extends HttpServlet {
       Method runBeforeAction = controllerMapping.getRunBeforeAction();
       ControllerDecorator controllerDecorator = new ControllerDecorator(controller);
 
-      dispatch = (String) controllerDecorator.executeAction(request, response, runBeforeAction, action);
+      dispatch = (Result) controllerDecorator.executeAction(request, response, runBeforeAction, action);
     }
     catch (Exception e) {
       request.setAttribute(Constants.ERROR_ATTRIBUTE_NAME, e);
-      dispatch = configuration.getErrorPage();
-      DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+      dispatch = configuration.getResultErrorPage();
 
-      if (defaultConfiguration.getErrorPage().equals(dispatch)) {
+      if (dispatch.isErrorPage(configuration)) {
         PrintWriter out = response.getWriter();
         String message = (e.getMessage() == null) ? e.getCause().getClass().getName() : e.getMessage();
         String content = ControllerUtils.obtainDefaultErrorPageWithMessage(message);
@@ -118,12 +118,12 @@ public class Bolt extends HttpServlet {
       }
     }
 
-    if (StringUtils.isNotBlank(dispatch) && !dispatch.endsWith(Constants.JSP_FILE_EXTENSION)) {
-      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch);
+    if (dispatch.isForward()) {
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch.goTo());
       dispatcher.forward(request, response);
     }
     else {
-      response.sendRedirect(dispatch);
+      response.sendRedirect(dispatch.goTo());
     }
   }
 
