@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.boltframework.config.BoltConfiguration;
 import br.com.boltframework.config.DefaultConfiguration;
-import br.com.boltframework.core.ControllerDecorator;
 import br.com.boltframework.core.ClassFinder;
+import br.com.boltframework.core.ControllerDecorator;
 import br.com.boltframework.core.ControllerMapping;
 import br.com.boltframework.core.Result;
 import br.com.boltframework.error.BoltException;
@@ -80,6 +80,7 @@ public class Bolt extends HttpServlet {
     Result dispatch = null;
     String pathInfo = request.getPathInfo();
     String applicationContext = ControllerUtils.getApplicationContext(request, getServletConfig());
+    System.out.println(applicationContext);
     request.setAttribute(Constants.APPLICATION_CONTEXT, applicationContext);
 
     try {
@@ -119,7 +120,8 @@ public class Bolt extends HttpServlet {
     }
 
     if (dispatch.isForward()) {
-      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(configuration.getViewsPath() + dispatch.goTo());
+      String goTo = dispatch.goTo().endsWith(Constants.JSP_FILE_EXTENSION) ? configuration.getViewsPath() + dispatch.goTo() : dispatch.goTo();
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(goTo);
       dispatcher.forward(request, response);
     }
     else {

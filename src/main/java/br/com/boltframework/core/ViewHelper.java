@@ -24,6 +24,12 @@ public class ViewHelper {
     return new Result(goTo, Result.ResultType.REDIRECT);
   }
 
+  public static Result forwardToAction(HttpServletRequest request, String controller, String action) {
+    String applicationContext = (String) request.getAttribute(Constants.APPLICATION_CONTEXT);
+    String goTo = applicationContext + Constants.FORWARD_SLASH + controller + Constants.FORWARD_SLASH + action;
+    return new Result(goTo, Result.ResultType.FORWARD);
+  }
+
   public static Result forwardToView(String controller, String view) {
     String goTo = controller + Constants.FORWARD_SLASH + view + Constants.JSP_FILE_EXTENSION;
     return new Result(goTo, Result.ResultType.FORWARD);
