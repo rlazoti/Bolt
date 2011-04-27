@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.boltframework.annotation.Action;
 import br.com.boltframework.annotation.Controller;
-import br.com.boltframework.annotation.RunBeforeAction;
+import br.com.boltframework.annotation.RunBeforeActions;
 import br.com.boltframework.core.Result;
 import br.com.boltframework.core.ViewHelper;
 import br.com.boltframework.http.HttpMethod;
@@ -61,7 +61,7 @@ public class PersonController {
 		return "list";
 	}
 
-	@RunBeforeAction(applyToActions = { "update", "delete", "save" })
+	@RunBeforeActions(applyToActions = { "update", "delete", "save" })
 	public Result runBeforeAction(HttpServletRequest request, HttpServletResponse response) {
 		return ViewHelper.processAction();
 	}

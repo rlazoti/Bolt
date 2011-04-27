@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.boltframework.annotation.Action;
 import br.com.boltframework.annotation.Controller;
-import br.com.boltframework.annotation.RunBeforeAction;
+import br.com.boltframework.annotation.RunBeforeActions;
 import br.com.boltframework.core.Result;
 import br.com.boltframework.http.HttpMethod;
 
@@ -60,7 +60,7 @@ public class UserController {
 		return "list";
 	}
 
-	@RunBeforeAction
+	@RunBeforeActions
 	public String runBeforeAction(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}

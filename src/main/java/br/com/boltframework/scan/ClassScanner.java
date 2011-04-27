@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 
 import br.com.boltframework.annotation.Action;
 import br.com.boltframework.annotation.Controller;
-import br.com.boltframework.annotation.RunBeforeAction;
+import br.com.boltframework.annotation.RunBeforeActions;
 import br.com.boltframework.core.ControllerMapping;
 import br.com.boltframework.http.HttpMethod;
 import br.com.boltframework.util.Constants;
@@ -42,12 +42,12 @@ public class ClassScanner {
 		return StringUtils.isNotBlank(directoryClasses) ? directoryClasses : Constants.DEFAULT_DIRECTORY_CLASSES;
 	}
 
-	private Method obtainRunBeforeActionMethod(Class<Object> clazz) {
+	private Method obtainRunBeforeActionsMethod(Class<Object> clazz) {
 		Method[] methods = clazz.getMethods();
 
 		for (Method method : methods) {
-			RunBeforeAction runBeforeAction = method.getAnnotation(RunBeforeAction.class);
-			if (runBeforeAction != null) {
+			RunBeforeActions runBeforeActions = method.getAnnotation(RunBeforeActions.class);
+			if (runBeforeActions != null) {
 				return method;
 			}
 		}
@@ -55,12 +55,20 @@ public class ClassScanner {
 		return null;
 	}
 
-	private boolean isMethodAppliedToRunBeforeAction(Method method, String actionName) {
+	private boolean isMethodAppliedToRunBeforeActions(Method method, String actionName) {
 		if (method != null) {
-			RunBeforeAction runBeforeAction = method.getAnnotation(RunBeforeAction.class);
+			RunBeforeActions runBeforeActions = method.getAnnotation(RunBeforeActions.class);
 
-			if (runBeforeAction != null) {
-				String[] actions = runBeforeAction.applyToActions();
+			if (runBeforeActions != null) {
+				String[] actions = runBeforeActions.applyToActions();
+				String[] ignoredActions = runBeforeActions.ignoreActions();
+
+				for (String ignoredAction : ignoredActions) {
+					if (StringUtils.isNotBlank(ignoredAction) && actionName.equals(ignoredAction)) {
+						return false;
+					}
+				}
+
 				for (String action : actions) {
 					if (action.equals(Constants.ALL_ACTIONS) || actionName.equals(action)) {
 						return true;
@@ -75,7 +83,7 @@ public class ClassScanner {
 	public List<ControllerMapping> getActionsByClass(Class<Object> clazz, String controllerMappingName) {
 		List<ControllerMapping> controllersList = new ArrayList<ControllerMapping>();
 		Method[] methods = clazz.getMethods();
-		Method runBeforeAction = obtainRunBeforeActionMethod(clazz);
+		Method runBeforeActions = obtainRunBeforeActionsMethod(clazz);
 
 		for (Method method : methods) {
 			Action action = method.getAnnotation(Action.class);
@@ -90,8 +98,8 @@ public class ClassScanner {
 					controllerMapping.setActionName(actionName);
 					controllerMapping.setHttpMethod(httpMethod);
 
-					if (isMethodAppliedToRunBeforeAction(runBeforeAction, actionName)) {
-						controllerMapping.setRunBeforeAction(runBeforeAction);
+					if (isMethodAppliedToRunBeforeActions(runBeforeActions, actionName)) {
+						controllerMapping.setRunBeforeActions(runBeforeActions);
 					}
 
 					controllersList.add(controllerMapping);

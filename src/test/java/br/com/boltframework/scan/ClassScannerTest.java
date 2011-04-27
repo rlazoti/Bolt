@@ -77,7 +77,7 @@ public class ClassScannerTest {
 		Class clazz = UserController.class;
 		List<ControllerMapping> mappings = classScanner.getActionsByClass(clazz, "user");
 		for (ControllerMapping mapping : mappings) {
-			assertNotNull(mapping.getRunBeforeAction());
+			assertNotNull(mapping.getRunBeforeActions());
 		}
 	}
 
@@ -89,10 +89,10 @@ public class ClassScannerTest {
 		for (ControllerMapping mapping : mappings) {
 			String action = mapping.getActionName();
 			if ("save".equals(action) || "update".equals(action) || "delete".equals(action)) {
-				assertNotNull(mapping.getRunBeforeAction());
+				assertNotNull(mapping.getRunBeforeActions());
 			}
 			else {
-				assertNull(mapping.getRunBeforeAction());
+				assertNull(mapping.getRunBeforeActions());
 			}
 		}
 	}

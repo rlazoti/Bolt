@@ -9,6 +9,7 @@ import br.com.boltframework.util.Constants;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface RunBeforeAction {
+public @interface RunBeforeActions {
 	String[] applyToActions() default { Constants.ALL_ACTIONS };
+	String[] ignoreActions() default { Constants.EMPTY_STRING };
 }

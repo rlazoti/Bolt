@@ -94,20 +94,24 @@ public class Bolt extends HttpServlet {
 			ControllerMapping controllerMapping = ControllerUtils.findMapping(controllerList, pathInfo, httpMethod);
 
 			if (controllerMapping == null) {
-				throw new ClassNotFoundException("Controller mapping not found: " + pathInfo);
+				String message = String.format("Controller mapping not found: %1$s", pathInfo);
+				logger.warn(message);
+				throw new ClassNotFoundException(message);
 			}
 
 			Class<Object> controllerClass = (Class<Object>) controllerMapping.getController();
 			if (controllerClass == null) {
+				String message = String.format("Controller class not found: %1$s", pathInfo);
+				logger.warn(message);
 				throw new ClassNotFoundException("Controller class not found: " + pathInfo);
 			}
 
 			Object controller = controllerClass.newInstance();
 			Method action = controllerMapping.getAction();
-			Method runBeforeAction = controllerMapping.getRunBeforeAction();
+			Method runBeforeActions = controllerMapping.getRunBeforeActions();
 			ControllerDecorator controllerDecorator = new ControllerDecorator(controller);
 
-			dispatch = (Result) controllerDecorator.executeAction(request, response, runBeforeAction, action);
+			dispatch = (Result) controllerDecorator.executeAction(request, response, runBeforeActions, action);
 		}
 		catch (Exception e) {
 			request.setAttribute(Constants.ERROR_ATTRIBUTE_NAME, e);

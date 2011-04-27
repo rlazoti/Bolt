@@ -11,7 +11,7 @@ public class ControllerMapping {
 	private Method action;
 	private String actionName;
 	private HttpMethod httpMethod;
-	private Method runBeforeAction;
+	private Method runBeforeActions;
 
 	public String getMapping() {
 		return ControllerUtils.createMapping(controllerName, actionName);
@@ -57,18 +57,18 @@ public class ControllerMapping {
 		this.httpMethod = httpMethod;
 	}
 
-	public Method getRunBeforeAction() {
-		return runBeforeAction;
+	public Method getRunBeforeActions() {
+		return runBeforeActions;
 	}
 
-	public void setRunBeforeAction(Method runBeforeAction) {
-		this.runBeforeAction = runBeforeAction;
+	public void setRunBeforeActions(Method runBeforeActions) {
+		this.runBeforeActions = runBeforeActions;
 	}
 
 	@Override
 	public String toString() {
-		String runBeforeActionName = runBeforeAction != null ? runBeforeAction.getName() : "none";
-		return String.format("Controller: %1$s Action: %2$s Method: %3$s RunBefore: %4$s", controllerName, actionName, httpMethod.toString(), runBeforeActionName);
+		String runBeforeActionsName = runBeforeActions != null ? runBeforeActions.getName() : "none";
+		return String.format("Controller: %1$s Action: %2$s Method: %3$s RunBefore: %4$s", controllerName, actionName, httpMethod.toString(), runBeforeActionsName);
 	}
 
 }
