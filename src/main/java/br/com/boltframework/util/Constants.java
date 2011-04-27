@@ -6,6 +6,7 @@ public class Constants {
 	public static final String CLASS_EXTENSION = ".class";
 	public static final String CONFIGURATION_INIT_PARAMETER = "configuration";
 	public static final String APPLICATION_CONTEXT = "applicationContext";
+	public static final String BOLT_CONTEXT = "boltContext";
 	public static final String DEFAULT_ERROR_PAGE = "/boltErrorPage.html";
 	public static final String ERROR_ATTRIBUTE_NAME = "${stackTrace}";
 	public static final String JSP_FILE_EXTENSION = ".jsp";

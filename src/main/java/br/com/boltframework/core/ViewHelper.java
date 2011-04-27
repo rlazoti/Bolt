@@ -25,8 +25,8 @@ public class ViewHelper {
   }
 
   public static Result forwardToAction(HttpServletRequest request, String controller, String action) {
-    String applicationContext = (String) request.getAttribute(Constants.APPLICATION_CONTEXT);
-    String goTo = applicationContext + Constants.FORWARD_SLASH + controller + Constants.FORWARD_SLASH + action;
+  	String boltContext = (String) request.getAttribute(Constants.BOLT_CONTEXT);
+  	String goTo = boltContext + Constants.FORWARD_SLASH + controller + Constants.FORWARD_SLASH + action;
     return new Result(goTo, Result.ResultType.FORWARD);
   }
 

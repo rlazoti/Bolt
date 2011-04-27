@@ -101,6 +101,10 @@ public final class ControllerUtils {
     return request.getContextPath() + Constants.FORWARD_SLASH + servletConfig.getInitParameter(Constants.APPLICATION_CONTEXT);
   }
 
+  public static String getBoltContext(HttpServletRequest request, ServletConfig servletConfig) {
+    return Constants.FORWARD_SLASH + servletConfig.getInitParameter(Constants.APPLICATION_CONTEXT);
+  }
+
   public static String obtainDefaultErrorPageWithMessage(String errorMessage) throws IOException {
     String content = FileUtils.obtainContentOfFile(Constants.DEFAULT_ERROR_PAGE);
     if (StringUtils.isNotBlank(content)) {
@@ -108,7 +112,7 @@ public final class ControllerUtils {
     }
     return content;
   }
-  
+
   public static String createMapping(String controllerName, String actionName) {
     if (StringUtils.isBlank(controllerName) || StringUtils.isBlank(actionName)) {
       return null;

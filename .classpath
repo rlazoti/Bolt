@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="build/classes/main" path="src/main/resources"/>
-	<classpathentry kind="src" output="build/classes/main" path="src/main/java"/>
-	<classpathentry kind="src" output="build/classes/test" path="src/test/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="var" path="GRADLE_CACHE/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar"/>
@@ -12,5 +9,19 @@
 	<classpathentry exported="true" kind="var" path="GRADLE_CACHE/asm/asm/jars/asm-3.0.jar"/>
 	<classpathentry exported="true" kind="var" path="GRADLE_CACHE/asm/asm-tree/jars/asm-tree-3.0.jar"/>
 	<classpathentry exported="true" kind="var" path="GRADLE_CACHE/org.apache.ant/ant-launcher/jars/ant-launcher-1.7.0.jar"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar" sourcepath="/home/rodrigo/.gradle/cache/commons-logging/commons-logging/sources/commons-logging-1.1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/oro/oro/jars/oro-2.0.8.jar" sourcepath="/home/rodrigo/.gradle/cache/oro/oro/sources/oro-2.0.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/net.sourceforge.cobertura/cobertura/jars/cobertura-1.9.4.1.jar" sourcepath="/home/rodrigo/.gradle/cache/net.sourceforge.cobertura/cobertura/sources/cobertura-1.9.4.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/junit/junit/jars/junit-4.8.jar" sourcepath="/home/rodrigo/.gradle/cache/junit/junit/sources/junit-4.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar" sourcepath="/home/rodrigo/.gradle/cache/commons-beanutils/commons-beanutils/sources/commons-beanutils-1.8.3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/log4j/log4j/bundles/log4j-1.2.16.jar" sourcepath="/home/rodrigo/.gradle/cache/log4j/log4j/sources/log4j-1.2.16-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/org.apache.ant/ant/jars/ant-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/asm/asm-tree/jars/asm-tree-3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar" sourcepath="/home/rodrigo/.gradle/cache/javax.servlet/servlet-api/sources/servlet-api-2.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/rodrigo/.gradle/cache/asm/asm/jars/asm-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

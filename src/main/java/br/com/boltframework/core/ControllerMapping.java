@@ -65,4 +65,10 @@ public class ControllerMapping {
 		this.runBeforeAction = runBeforeAction;
 	}
 
+	@Override
+	public String toString() {
+		String runBeforeActionName = runBeforeAction != null ? runBeforeAction.getName() : "none";
+		return String.format("Controller: %1$s Action: %2$s Method: %3$s RunBefore: %4$s", controllerName, actionName, httpMethod.toString(), runBeforeActionName);
+	}
+
 }
