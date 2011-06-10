@@ -32,8 +32,8 @@ To use Bolt in your web application, you just need to define the follow servlet 
         <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
 
-The init parameter called "applicationContext" should be the same value of the "url-pattern" (without '/' and '*').
-Currently the framework doesn't work with extension mapping yet (example: *.do).
+The init parameter called "applicationContext" should be the same value of the "url-pattern" (without '/' and '*').   
+Currently the framework doesn't work with extension mapping yet (example: *.do).   
 
 Usage
 =====
@@ -68,10 +68,10 @@ An action can response to more of one http method.
 Views
 -----
 
-By default, views are in WEB-INF/views folder and each jsp file follow the following convertion "controller mapping"/"action name".jsp.
+By default, views are in WEB-INF/views folder and each jsp file follow the following convertion "controller mapping"/"action name".jsp.   
 The example below uses the following JSP file: /WEB-INF/views/welcome/index.jsp
 
-    @Controller(mappedBy = "welcome"
+    @Controller(mappedBy = "welcome")
     public class WelcomeController {
 
         @Action(methods = HttpMethod.GET)
@@ -84,22 +84,33 @@ The example below uses the following JSP file: /WEB-INF/views/welcome/index.jsp
 Forward and Redirect
 --------------------
 
-To forward or redirect an action or a view you should use the ViewHelper class.
+To forward or redirect an action or a view you should use the ViewHelper class.   
+   
+forward the current action to its default view:   
 
-    ViewHelper.forwardToDefaultView(); //forward the current action to its default view.
-    ViewHelper.forwardToView(String controller, String view); //forward to another view in some other controller or in the current controller
-    ViewHelper.redirectToAction(HttpServletRequest request, String controller, String action); //redirect the current action to another action in some other controller or in the current controller.
-    ViewHelper.forwardToAction(HttpServletRequest request, String controller, String action); //forward the current action to another action in some other controller or in the current controller.
+    ViewHelper.forwardToDefaultView();
+
+forward to another view in some other controller or in the current controller:   
+
+    ViewHelper.forwardToView(String controller, String view);
+
+redirect the current action to another action in some other controller or in the current controller:   
+
+    ViewHelper.redirectToAction(HttpServletRequest request, String controller, String action);
+ 
+forward the current action to another action in some other controller or in the current controller:   
+
+    ViewHelper.forwardToAction(HttpServletRequest request, String controller, String action); 
 
 Building in your machine
 ========================
 
-If you want to build it, you'll need to install Gradle.
+If you want to build it, you'll need to install Gradle.   
 Then, execute:
 
     gradle build
 
-Authors
-=======
+Author
+======
 
 Rodrigo Lazoti - rodrigolazoti@gmail.com
