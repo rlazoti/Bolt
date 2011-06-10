@@ -110,6 +110,11 @@ Then, execute:
 
     gradle build
 
+If you want to see the code into Eclipse, you'll need to generate eclipse project files.
+Then, execute:
+
+    gradle eclipse
+
 Author
 ======
 
