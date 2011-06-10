@@ -20,6 +20,12 @@ public final class ClassFinder {
     return new ClassFinder();
   }
 
+  /**
+   * Obtain all controller's mapping (Classes with @Controller annotation)
+   * @param servletConfig
+   * @param servletContext
+   * @return
+   */
   public List<ControllerMapping> loadAllControllerMappings(ServletConfig servletConfig, ServletContext servletContext) {
     if (servletContext == null) {
       throw new IllegalArgumentException("The argument 'servletContext' must contain a value.");

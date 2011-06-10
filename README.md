@@ -24,13 +24,13 @@ To use Bolt in your web application, you just need to define the follow servlet 
     <servlet-class>br.com.boltframework.Bolt</servlet-class>
     <init-param>
       <param-name>applicationContext</param-name>
-      <param-value>site</param-value>
+      <param-value>app</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>Bolt</servlet-name>
-    <url-pattern>/site/*</url-pattern>
+    <url-pattern>/app/*</url-pattern>
   </servlet-mapping>
 
 The init parameter called "applicationContext" should be the same value of the "url-pattern" (without '/' and '*').
@@ -55,10 +55,10 @@ Actions
 You should annotate the action with @Action and define the http method that it can receive.
 
   @Action(methods = HttpMethod.GET)
-  public Result home(HttpServletRequest request, HttpServletResponse response) {
+  public Result index(HttpServletRequest request, HttpServletResponse response) {
     return ViewHelper.forwardToDefaultView();
   }
-
+ 
 An action can response to more of one http method.
 
   @Action(methods = { HttpMethod.GET, HttpMethod.POST })
@@ -69,18 +69,21 @@ An action can response to more of one http method.
 Views
 -----
 
-For each action should The action
-By default views are in WEB-INF/views folder.
+By default, views are in WEB-INF/views folder and each jsp file follow the following convertion "controller mapping"/"action name".jsp.
+The example below uses the following JSP file: /WEB-INF/views/welcome/index.jsp
 
-"controller mapping"/"action name".jsp
+  @Controller(mappedBy = "welcome"
+  public class WelcomeController {
 
-Pre/Pos Processors
-------------------
-
-  @RunBeforeActions(ignoreActions = {"index", "welcome"})
-  public Result isAuthenticated(HttpServletRequest request, HttpServletResponse response) {
-    return ViewHelper.redirectToAction(request, "authentication", "login");
+    @Action(methods = HttpMethod.GET)
+    public Result index(HttpServletRequest request, HttpServletResponse response) {
+      return ViewHelper.forwardToDefaultView();
+    }
   }
+
+Forwarding
+----------
+
 
 Building in your machine
 ========================

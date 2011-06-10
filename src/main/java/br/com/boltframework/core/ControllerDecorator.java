@@ -19,6 +19,15 @@ public class ControllerDecorator {
     this.controller = controller;
   }
 
+  /**
+   * Execute dynamically an action.
+   * @param request
+   * @param response
+   * @param runBeforeAction
+   * @param action
+   * @return
+   * @throws Exception
+   */
   public Result executeAction(HttpServletRequest request, HttpServletResponse response, Method runBeforeAction, Method action) throws Exception {
     Object[] args = new Object[2];
     args[0] = request;
