@@ -3,7 +3,6 @@ Bolt
 
 It's a micro web MVC framework write in Java.
 
-
 Requirements
 ============
 
@@ -79,11 +78,18 @@ The example below uses the following JSP file: /WEB-INF/views/welcome/index.jsp
     public Result index(HttpServletRequest request, HttpServletResponse response) {
       return ViewHelper.forwardToDefaultView();
     }
+
   }
 
-Forwarding
-----------
+Forward and Redirect
+--------------------
 
+To forward or redirect an action or a view you should use the ViewHelper class.
+
+  ViewHelper.forwardToDefaultView() //forward the current action to its default view.
+  ViewHelper.forwardToView(String controller, String view) //forward to another view in some other controller or in the current controller
+  ViewHelper.redirectToAction(HttpServletRequest request, String controller, String action) #redirect the current action to another action in some other controller or in the current controller.
+  ViewHelper.forwardToAction(HttpServletRequest request, String controller, String action) #forward the current action to another action in some other controller or in the current controller.
 
 Building in your machine
 ========================
@@ -92,9 +98,6 @@ If you want to build it, you'll need to install Gradle.
 Then, execute:
 
   gradle build
-
-License
-=======
 
 Authors
 =======
