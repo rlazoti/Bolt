@@ -1,7 +1,7 @@
 Bolt
 ====
 
-It's a micro web MVC framework write in Java.
+It's a micro web MVC framework written in Java.
 
 Requirements
 ============
